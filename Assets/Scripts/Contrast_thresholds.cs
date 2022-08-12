@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Contrast_thresholds : MonoBehaviour
-{
+public class Contrast_thresholds : MonoBehaviour {
 	public float current_contrast_level = 1.0f;
 	public int reversals = 0;
 	public float true_weibull_slope = 2.5f;
@@ -30,10 +29,8 @@ public class Contrast_thresholds : MonoBehaviour
 			all_members.Add(child);
 		}
 		//Debug.Log(all_members);
-
-		
-
 	}
+
 	void Update()
 	{
 		neighbourcontrastslist.Clear();
@@ -53,14 +50,11 @@ public class Contrast_thresholds : MonoBehaviour
 			{
 				sum = sum + element;
 			}
-
 			current_contrast_level = sum / neighbourcontrastslist.Count;
             //Debug.Log("Group 2 c_level :");
 			//Debug.Log(sum.ToString());
 		}
-
 		// Now we see the responses received for the corresponding contrast level and update the current_contrast_level
-		
 	}
 
 	float Weibull(double x, double location_g)
