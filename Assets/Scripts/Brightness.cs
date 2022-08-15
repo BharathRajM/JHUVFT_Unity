@@ -6,7 +6,7 @@ using UnityEngine.Rendering.PostProcessing;
 
 public class Brightness : MonoBehaviour {
 
-    public Slider brightnessSlider;
+    public Slider[] brightnessSlider;
 
     public PostProcessProfile brightness;
     public PostProcessLayer layer;
@@ -16,7 +16,7 @@ public class Brightness : MonoBehaviour {
     void Start()
     {
         brightness.TryGetSettings(out exposure);
-        AdjustBrightness(brightnessSlider.value);
+        AdjustBrightness(brightnessSlider[1].value);
     }
 
     public void AdjustBrightness(float value)

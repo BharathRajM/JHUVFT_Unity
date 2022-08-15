@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UI;
+using UnityEngine.Rendering.PostProcessing;
 
 
 /* TODO: Fixation Cross
@@ -73,13 +75,21 @@ public class ControlStimulusGroups : MonoBehaviour {
     public GameObject[] Lights;
     public Light[] sceneLight;
 
+    public Slider[] brightnessSlider;
+
+    public PostProcessProfile brightness;
+    public PostProcessLayer layer;
+
+    AutoExposure exposure;
+
+    public Camera cam;
+    Color32 color;
+
     System.DateTime show_time;
 
     // Start is called before the first frame update
     void Start()
     {
-        //Debug.Log("Welcome to JHU-VFT! \n Initializing Visual Field Testing");
-
         foreach (Transform child in Group1.transform)
         {
             Debug.Log("Group 1: " + child.name);
@@ -93,6 +103,8 @@ public class ControlStimulusGroups : MonoBehaviour {
             Lights[3].SetActive(false);
             contrast[0].text = "Contrast level " + contrastseverylocation[0];
             sceneLight[0].intensity = contrastseverylocation[0];
+            brightness.TryGetSettings(out exposure);
+            AdjustBrightness(brightnessSlider[0].value);
             all_group1.Add(child);
         }
 
@@ -109,6 +121,8 @@ public class ControlStimulusGroups : MonoBehaviour {
             Lights[3].SetActive(false);
             contrast[1].text = "Contrast level " + contrastseverylocation[1];
             sceneLight[1].intensity = contrastseverylocation[1];
+            brightness.TryGetSettings(out exposure);
+            AdjustBrightness(brightnessSlider[1].value);
             all_group2.Add(child2);
         }
         
@@ -125,6 +139,8 @@ public class ControlStimulusGroups : MonoBehaviour {
             Lights[3].SetActive(false);
             contrast[2].text = "Contrast level " + contrastseverylocation[2];
             sceneLight[2].intensity = contrastseverylocation[2];
+            brightness.TryGetSettings(out exposure);
+            AdjustBrightness(brightnessSlider[2].value);
             all_group3.Add(child3);
         }
 
@@ -141,11 +157,25 @@ public class ControlStimulusGroups : MonoBehaviour {
             Lights[3].SetActive(true);
             contrast[3].text = "Contrast level " + contrastseverylocation[3];
             sceneLight[3].intensity = contrastseverylocation[3];
+            brightness.TryGetSettings(out exposure);
+            AdjustBrightness(brightnessSlider[3].value);
             all_group4.Add(child4);
         }
 
         not_dones_in_group = get_not_done_group_elements(current_group);
         show_stimulus(not_dones_in_group);
+    }
+
+    public void AdjustBrightness(float value)
+    {
+        if (value != 0)
+        {
+            exposure.keyValue.value = value;
+        }
+        else
+        {
+            exposure.keyValue.value = .05f;
+        }
     }
 
     int get_groupnumber()
